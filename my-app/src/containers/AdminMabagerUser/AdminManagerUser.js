@@ -1,11 +1,11 @@
 import React, {Component} from 'react'
 import './style.css'
 import {Table} from 'antd'
-
-const dataSource = [
+import {getData, postData} from '../../fetch/fetch'
+/* const dataSource = [
     {key:'1', username:'echo', _id: '111111', password: '1234565', type:'admin'},
     {key:'1', username:'echo2', _id: '22222', password: '56232323', type:'user'},
-]
+] */
 const columns = [
     {title: '姓名', dataIndex: 'username', key: 'name'},
     {title: 'ID', dataIndex: '_id', key: 'ID'},
@@ -14,6 +14,12 @@ const columns = [
 ]
 
 export default class AdminmanagerUser extends Component {
+    constructor(props) {
+        super(props)
+        this.state = {
+            dataSource: []
+        }
+    }
     render() {
         return(
             <div>
@@ -22,9 +28,22 @@ export default class AdminmanagerUser extends Component {
                 className="table"
                 pagination={false}
                 columns={columns}
-                dataSource={dataSource}
+                dataSource={this.state.dataSource}
+                rowKey={(record, index) => index}
                 />
             </div>
         )
+    }
+    async componentDidMount() {
+        getData(`/admin/getUsers`, {
+            method: "GET",
+            mode: 'cors'
+        }).then(data => {
+            this.setState({
+                dataSource: data.data.list
+            })
+            console.log('data', this.state.dataSource)
+        }).catch( err=> {} )
+        
     }
 }

@@ -46,11 +46,33 @@
      }
      console.info(`===> db server is running at ${config.dbHost}:${config.dbPort}`)
 
+  /*    var dbo = db.db("blog");
+    var myobj = { name: "菜鸟教程", url: "www.runoob" };
+    dbo.collection("site").insertOne(myobj, function(err, res) {
+        if (err) throw err;
+        console.log("文档插入成功");
+        db.close();
+    }); */
+
      app.listen(port, err => {
          if(err) {
-             console.log('err:', err)
+            console.log('err:', err)
          }else {
             console.info(`===> api server is running at ${config.apiHost}:${config.apiPort}`)
          }
      })
  })
+
+// var MongoClient = require('mongodb').MongoClient;
+// var url = "mongodb://localhost:27017/blog";
+ 
+// MongoClient.connect(url, { useNewUrlParser: true }, function(err, db) {
+//     if (err) throw err;
+//     var dbo = db.db("runoob");
+//     var myobj = { name: "菜鸟教程", url: "www.runoob" };
+//     dbo.collection("site").insertOne(myobj, function(err, res) {
+//         if (err) throw err;
+//         console.log("文档插入成功");
+//         db.close();
+//     });
+// });

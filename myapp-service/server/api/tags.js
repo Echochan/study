@@ -18,6 +18,7 @@ router.get('/delTag', (req, res) => {
         })
 })
 router.post('/addTag', (req, res) => {
+    console.log('sss', req.body)
     let {name} = req.body
     Tags.findOne({name})
         .then(result => {

@@ -20,7 +20,7 @@ router.get('/getAllTags', (req, res) => {
 //获取文章
 router.get('/getArticles', (req, res) => {
     let tag = req.query.tag || null
-    let isPublish = req.query.isPublish;
+    let isPublish = req.query.isPublish || true
     let searchCondition = {
         isPublish
     }

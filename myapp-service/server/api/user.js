@@ -53,11 +53,11 @@ router.post('/register', (req, res) => {
                 responseClient(res, 200, 1, '用户已存在')
                 return
             }
-            let user = {
+            let user = new User({
                 username: username,
                 password: md5(password + MD5_SUFFIX),
                 type: 'user'
-            }
+            })
             user.save()
                 .then(() => {
                     User.findOne({username})

@@ -6,7 +6,7 @@ const {MD5_SUFFIX, responseClient, md5} = require('../../utils/utils')
 
 router.post('/addArticle', (req, res) => {
     const {title, content, desc, time, tags, isPublish} = req.body
-    const author = req.session.userInfo.username
+    const author =  'cc'//req.session.userInfo.username ||
     const coverImg = ''
     const viewCount = 0
     const commentCount = 0

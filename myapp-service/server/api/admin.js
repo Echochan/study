@@ -5,11 +5,13 @@ const User = require('../../models/user')
 const {responseClient} = require('../../utils/utils')
 
 router.use((req, res, next) => {
-    if(req.session.userInfo) {
-        next()
-    }else {
-        res.send(responseClient(res, 200, 1, '身份信息已过期，请重新登录'))
-    }
+    // if(req.session.userInfo) {
+    //     next()
+    // }else {
+    //     res.send(responseClient(res, 200, 1, '身份信息已过期，请重新登录'))
+    // }
+    next()
+
 })
 
 router.use('/tags', require('./tags'))
@@ -27,7 +29,7 @@ router.get('/getUsers', (req, res) => {
             User.find(null, '_id username type password', {skip: skip, limit: 10})
                 .then(result => {
                     responseDta.list = result
-                    responseClient(res, 200, 0, responseDta)
+                    responseClient(res, 200, 0,'查询成功', responseDta)
                 })
                 .catch(err => {
                     responseClient(res)
