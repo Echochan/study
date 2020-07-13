@@ -5,8 +5,8 @@ const Tags = require('../../models/Tags')
 const {MD5_SUFFIX, responseClient, md5} = require('../../utils/utils')
 
 router.get('/delTag', (req, res) => {
-    let {name} = req.query
-    Tags.remove({name})
+    let {name, _id} = req.query
+    Tags.remove({_id})
         .then(result => {
             if(result.result.n === 1) {
                 responseClient(res, 200, 0, '删除成功')
@@ -31,7 +31,7 @@ router.post('/addTag', (req, res) => {
                         throw err
                     })
             }else {
-                responseClient(res, 200, 1, '改标签已存在')
+                responseClient(res, 200, 1, '该标签已存在')
             }
         }).catch(err => {
             responseClient(res)

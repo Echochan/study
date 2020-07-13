@@ -7,6 +7,7 @@ export default class ArticleCell extends React.Component {
         super(props)
     }
     render(){
+        console.log('articleListCell', this.props)
         return(
             <div className="ac_container" onClick={
                 ()=> {
@@ -16,7 +17,7 @@ export default class ArticleCell extends React.Component {
             >
                 <div className="content">
                     <div className="title">
-                        <h2>{this.props.data.title} + {this.props.data.tags}</h2>
+                        <h2>{this.props.data.title} + {this.props.data.tags.join(',')}</h2>
                     </div>
                     <p className="summary">
                         这里应该有摘要的

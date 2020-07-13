@@ -8,5 +8,5 @@ export async function getData(url, params) {
 }
 
 export async function postData(url, params) {
-    return get(url, params)
+    return post(url, params)
 }

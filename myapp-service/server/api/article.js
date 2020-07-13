@@ -5,11 +5,13 @@ const Article = require( '../../models/article')
 const {MD5_SUFFIX, responseClient, md5} = require('../../utils/utils')
 
 router.post('/addArticle', (req, res) => {
-    const {title, content, desc, time, tags, isPublish} = req.body
+    let {title, content, desc, time, tags, isPublish} = req.body
+    console.log('body', req.body)
     const author =  'cc'//req.session.userInfo.username ||
     const coverImg = ''
     const viewCount = 0
     const commentCount = 0
+    tags = tags || ''
     let templateArticle = new Article({
         title,
         content,

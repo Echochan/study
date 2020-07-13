@@ -38,7 +38,7 @@ router.get('/getArticles', (req, res) => {
     Article.count(searchCondition)
         .then(count => {
             responseData.total = count
-            Article.find(searchCondition, '_id title isPublish author viewCount commentCount time desc', {
+            Article.find(searchCondition, '_id title isPublish author viewCount commentCount time desc tags', {
                 skip: skip,
                 limit: 10
             }).then(result => {

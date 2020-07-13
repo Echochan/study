@@ -3,9 +3,10 @@ import './style.css'
 import remark from 'remark'
 import reactRenderer from 'remark-react'
 import {Input, Select, Button, Modal} from 'antd'
+import {getData, postData} from '../../fetch/fetch'
 import '../Detail/style.css';
 
-const tags = ['首页', 'iOS', 'Python'];
+// const tags = ['首页', 'iOS', 'Python'];
 export default class AdminNewArticle extends Component {
     constructor(props) {
         super(props)
@@ -13,8 +14,18 @@ export default class AdminNewArticle extends Component {
             title: '',
             content: '',
             tags: [],
+            allTags: [],
             modalVisible: false
         }
+    }
+    async componentDidMount() {
+        getData('/getAllTags').then(data => {
+            if(data.code === 0) {
+                this.setState({
+                    allTags: data.data
+                })
+            }
+        })
     }
     //标题改变
     titleOnchage(e) {
@@ -36,7 +47,24 @@ export default class AdminNewArticle extends Component {
     }
     //发表文章
     publishArticle() {
-
+        postData('/admin/article/addArticle', {
+            title: this.state.title, 
+            content: this.state.content,
+            desc: this.state.desc,
+            time: new Date().getTime(), 
+            tags: this.state.tags.join(','), 
+            isPublish: true
+        }).then(data => {
+            console.log('发表', data)
+            if(data.code === 0) {
+                this.setState({
+                    title: '', 
+                    content: '',
+                    desc: '',
+                    tags: []
+                })
+            }
+        })
     }
     //
     saveArticle() {
@@ -81,8 +109,8 @@ export default class AdminNewArticle extends Component {
                         value = {this.state.tags}
                     >
                         {
-                            tags.map(item => (
-                                <Select.Option key ={item}>{item}</Select.Option>
+                            this.state.allTags.map(item => (
+                                <Select.Option key ={item.name}>{item.name}</Select.Option>
                             ))
                         }
                     </Select>

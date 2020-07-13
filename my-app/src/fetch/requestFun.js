@@ -48,8 +48,8 @@ class http {
                 // 'content-type': 'application/x-wwww-form-urlencoded'
             }
         }
-        if(options.methos === 'POST' || options.methos === 'PUT') {
-            defaultOptions.headers['Content-Type'] = 'application/json;charset=utf-8'
+        if(options.method === 'POST' || options.method === 'PUT') {
+            defaultOptions.headers['Content-Type'] = 'application/json; charset=utf-8'
         }
 
         const newOptions = {...defaultOptions, ...options}

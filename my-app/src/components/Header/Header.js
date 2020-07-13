@@ -9,8 +9,8 @@ class Header extends React.Component {
                 <span className="log">
                     <img src={logo}/>
                 </span>
-                <h1>Echo's Blog</h1>
-                <p>If you can't measure it, you can't improve it</p>
+                {/* <h1>Echo's Blog</h1> */}
+                {/* <p>If you can't measure it, you can't improve it</p> */}
             </div>
         )
     }

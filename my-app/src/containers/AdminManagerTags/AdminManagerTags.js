@@ -2,15 +2,23 @@ import React, {Component} from 'react'
 import './style.css'
 import {Tag, Input, Tooltip, Button} from 'antd'
 import _ from 'lodash'
+import {getData, postData} from '../../fetch/fetch'
 export default class AdminManagerTags extends Component{
     constructor(props) {
         super(props)
         this.saveInputRef = React.createRef();
         this.state = {
-            tags: ['首页', 'IOS', 'Python'],
+            tags: [],
             inputVisible: false,
             inputValue: '',
         }
+    }
+    async componentDidMount() {
+        getData('/getAllTags').then(data => {
+            this.setState({
+                tags: data.data, 
+            })
+        })
     }
     //显示输入框
     showInput = () => {
@@ -28,23 +36,35 @@ export default class AdminManagerTags extends Component{
     }
     handleInputConfirm = (e) => {
         if(this.state.inputValue.length > 0) {
-            this.state.tags.push(this.state.inputValue)
-            this.setState({
-                tags: this.state.tags
+            postData('/admin/tags/addTag', {
+                name: this.state.inputValue
+            }).then(data => {
+                if(data.code === 0) {
+                    this.state.tags.push(data.data)
+                    this.setState({
+                        tags: this.state.tags
+                    })
+                    console.log('tags', this.state.tags)
+                }
             })
+            
         }
         this.setState({
             inputVisible: false,
             inputValue: ''
         })
     }
-    handleDelete = (removeTag) => {
-        _.remove(this.state.tags , tag => tag === removeTag)
-        console.log( ' this.state.tags', this.state.tags)
-        this.setState({
-            tags: this.state.tags
+    handleDelete = (id) => {
+        getData('/admin/tags/delTag', {
+            _id: id
+        }).then(data => {
+            if(data.code === 0) {
+                _.remove(this.state.tags , tag => tag._id === id)
+                this.setState({
+                    tags: this.state.tags
+                })
+            }
         })
-        console.log( ' this.state.tags222', this.state.tags)
     }
     render() {
         const { inputVisible, inputValue } = this.state;
@@ -55,11 +75,11 @@ export default class AdminManagerTags extends Component{
                 {tags.map((tag,index) => {
                     const isLongTag = tag.length > 20
                     const tagElm = (
-                        <Tag className="tagStyle" key={index} visible={true} closable={index!=0}  onClose={() => this.handleDelete(tag)}>
-                            {isLongTag ? `${tag.slice(0,20)}...` : tag}
+                        <Tag className="tagStyle" key={index}  visible={true} closable={tags.length > 1 }  onClose={() => this.handleDelete(tag._id)}>
+                            {isLongTag ? `${tag.name.slice(0,20)}...` : tag.name}
                         </Tag>
                     )
-                    return isLongTag ? <Tooltip key={tag} title={tag}>{tagElm}</Tooltip> : tagElm
+                    return isLongTag ? <Tooltip key={tag.name} title={tag.name}>{tagElm}</Tooltip> : tagElm
                 })}
                 {inputVisible && (
                     <Input 

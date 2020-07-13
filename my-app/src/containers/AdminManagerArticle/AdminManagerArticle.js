@@ -3,31 +3,27 @@ import './style.css'
 import {ManagerArticleCell} from '../../components/ManagerArticleCell/ManagerArticleCell'
 import _ from 'lodash'
 import { Modal} from 'antd'
+import {getData, postData} from '../../fetch/fetch'
 const confirm = Modal.confirm
-
-const articleList = [{
-    title: '标题',
-    author:'echo',
-    viewCount: '12',
-    time: '2020-06-29',
-    _id: '1111',
-    isPublished: true
-},{
-    title: '标题222',
-    author:'echo2',
-    viewCount: '112',
-    time: '2020-06-29',
-    _id: '2222',
-    isPublished: false
-},]
 
 export default class AdminManagerArticle extends Component {
     constructor(props) {
         super(props)
         this.state = {
-            articleList: articleList
+            articleList: []
         }
     }
+    async componentDidMount() {
+        getData('/getArticles')
+        .then(data => {
+            console.log('文章', data)
+            this.setState({
+                articleList: data.data.list
+            })
+        })
+        
+    }
+
     edit_article = (id) => {
         console.log('编辑文章', id)
     }
@@ -45,9 +41,17 @@ export default class AdminManagerArticle extends Component {
             okType: 'danger',
             cancelText: '再想想',
             onOk() {
-                _.remove(self.state.articleList, article => article._id === id)
-                self.setState({
-                    articleList: self.state.articleList
+               
+                getData('/admin/article/delArticle', {
+                    id: id
+                }).then(data => {
+                    console.log('删除', data)
+                    if(data.code == '0') {
+                        _.remove(self.state.articleList,  article => article._id === id)
+                        self.setState({
+                            articleList: self.state.articleList
+                        })
+                    }
                 })
             },
             onCancel() {
