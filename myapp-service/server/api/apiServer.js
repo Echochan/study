@@ -25,7 +25,7 @@
 
  const app = new Express()
 
- app.use(bodyParser.urlencoded({extended: true}));  //支持编码的主体
+ app.use(bodyParser.urlencoded({extended:true}));  //支持编码的主体
 
  app.use(bodyParser.json());  //支持json编码的主体
  app.use(cookieParser('express_react_cookie'))

@@ -1,5 +1,5 @@
 import React, {Component} from 'react'
-import {Switch, Router, Route} from 'react-router-dom'
+import {Switch, Router, Route, Link} from 'react-router-dom'
 import './style.css'
 import AdminMenu from '../../components/AdminMenu/AdminMenu'
 import AdminManagerUser from '../AdminMabagerUser/AdminManagerUser'
@@ -7,6 +7,7 @@ import AdminIndex from '../AdminIndex/AdminIndex'
 import AdminManagerTags from '../AdminManagerTags/AdminManagerTags'
 import AdminManagerArticle from '../AdminManagerArticle/AdminManagerArticle'
 import AdminNewArticle from '../AdminNewArticle/AdminNewArticle'
+// import RouterGuard from '../RouteRegard'
 class Admin extends Component{
     render() {
         const { url } = this.props.match;
@@ -26,6 +27,9 @@ class Admin extends Component{
                               <Route  path={`${url}/managerArticle`} component={AdminManagerArticle}/>
                               <Route  path={`${url}/managerNewArticle`} component={AdminNewArticle}/>
                           </Switch>
+                          {/* <Link to='/'> 首页</Link>
+                          <RouterGuard path ='/admin' isLogin={false}/> */}
+
                       </div>
                   </div>  
                 }

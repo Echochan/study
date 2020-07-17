@@ -1,6 +1,7 @@
 import React, {Component} from 'react'
 import './style.css'
 import {Table} from 'antd'
+import {Route} from 'react-router-dom'
 import {getData, postData} from '../../fetch/fetch'
 /* const dataSource = [
     {key:'1', username:'echo', _id: '111111', password: '1234565', type:'admin'},
@@ -39,11 +40,16 @@ export default class AdminmanagerUser extends Component {
             method: "GET",
             mode: 'cors'
         }).then(data => {
+            if(data.code === 1) {//登录信息已过期
+        console.log('ssss', this.props.match, this.props)
+                this.props.history.push('/admin')
+                return
+            }
             this.setState({
                 dataSource: data.data.list
             })
             console.log('data', this.state.dataSource)
-        }).catch( err=> {} )
+        }).catch( err=> {})
         
     }
 }

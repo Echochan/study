@@ -5,7 +5,7 @@ const User = require( '../../models/User')
 const  {MD5_SUFFIX, responseClient, md5} = require( '../../utils/utils')
 
 router.post('/login', (req, res) => {
-    let {username, password} = req.query
+    let {username, password} = req.body
     if(!username) {
         responseClient(res, 400, 2, '用户名不能为空')
         return
@@ -27,7 +27,7 @@ router.post('/login', (req, res) => {
             responseClient(res, 200, 0, '登录成功', data)
             return
         }
-        responseClient(res, 400, 1, '用户名或密码错误')
+        responseClient(res, 200, 1, '用户名或密码错误')
     }).catch(err => {
         responseClient(res)
     })

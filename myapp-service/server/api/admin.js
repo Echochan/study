@@ -5,11 +5,10 @@ const User = require('../../models/user')
 const {responseClient} = require('../../utils/utils')
 
 router.use((req, res, next) => {
-    // if(req.session.userInfo) {
-    //     next()
-    // }else {
-    //     res.send(responseClient(res, 200, 1, '身份信息已过期，请重新登录'))
-    // }
+    if(!req.session.userInfo) {
+        res.send(responseClient(res, 200, 1, '身份信息已过期，请重新登录'))
+        return
+    }
     next()
 
 })

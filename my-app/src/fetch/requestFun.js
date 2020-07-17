@@ -1,9 +1,9 @@
 import { message } from 'antd'
 import 'whatwg-fetch'
 import qs from 'qs'
+import {useHistory} from 'react-router-dom'
 import Operation from 'antd/lib/transfer/operation'
 const { stringify, parse } = qs
-
 const checkStatus = res => {
     if(200 <= res <300) {return res}
     message.error(`网络请求失败，${res.status}`)
@@ -17,8 +17,11 @@ const checkStatus = res => {
  */
 const judgeOkState = async res => {
     const cloneRes = await res.clone().json()
+    if(cloneRes.code === 1) {//重新登录
+        // window.location.href = '/admin'
+    }
     if(cloneRes.code !== 0) {
-        message.error(`${cloneRes.message}${cloneRes.code}`)
+        message.error(`${cloneRes.message}`)
     }
     return res
 }
